@@ -1,18 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core Pages -->
   <url>
-    <loc>https://your-domain.com/</loc>
+    <loc>https://finaiyze.netlify.app/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
   <url>
-    <loc>https://your-domain.com/screens</loc>
+    <loc>https://finaiyze.netlify.app/screens</loc>
     <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://finaiyze.netlify.app/portfolio</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
-    <loc>https://your-domain.com/portfolio</loc>
+    <loc>https://finaiyze.netlify.app/document-analyzer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- Informational Pages -->
+  <url>
+    <loc>https://finaiyze.netlify.app/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://finaiyze.netlify.app/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://finaiyze.netlify.app/faq</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Legal Pages (VERY IMPORTANT for SEO trust) -->
+  <url>
+    <loc>https://finaiyze.netlify.app/terms-and-conditions</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://finaiyze.netlify.app/privacy-policy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://finaiyze.netlify.app/disclaimer</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
