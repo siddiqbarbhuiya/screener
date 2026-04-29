@@ -3,20 +3,17 @@
  * @description Handles contact form submissions
  */
 
-import nodemailer from 'nodemailer';
-
-// Configure your email service here
-// This is a basic example - adjust based on your email setup
-const transporter = nodemailer.createTransport({
-  // Configure with your email service (Gmail, SendGrid, etc.)
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: process.env.EMAIL_PORT || 587,
-  secure: process.env.EMAIL_SECURE === 'true',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+// Optional: Uncomment if using nodemailer for email notifications
+// const nodemailer = require('nodemailer');
+// const transporter = nodemailer.createTransport({
+//   host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+//   port: process.env.EMAIL_PORT || 587,
+//   secure: process.env.EMAIL_SECURE === 'true',
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASSWORD,
+//   },
+// });
 
 /**
  * Submit contact form
@@ -26,7 +23,7 @@ const transporter = nodemailer.createTransport({
  * @param {string} subject - Message subject
  * @param {string} message - Message content
  */
-export async function submitContact(req, res) {
+async function submitContact(req, res) {
   try {
     const { name, email, subject, message } = req.body;
 
@@ -85,3 +82,5 @@ export async function submitContact(req, res) {
     });
   }
 }
+
+module.exports = { submitContact };

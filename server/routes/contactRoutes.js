@@ -3,11 +3,11 @@
  * @description Routes for contact form submissions
  */
 
-import { Router } from 'express';
-import { submitContact } from '../controllers/contactController.js';
+const express = require('express');
+const { submitContact } = require('../controllers/contactController');
 
-const router = Router();
+const router = express.Router();
 
 router.post('/contact', submitContact);
 
-export default router;
+module.exports = router;
