@@ -21,10 +21,12 @@ app.get('/health', (_, res) => res.json({ status: 'ok' }));
 const stockRoutes = require('./routes/stockRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const portfolioRoutes = require('./routes/portfolioRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 app.use('/api', stockRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api', contactRoutes);
 
 app.use((err, req, res, next) => {
   console.error('[ERROR]...................', err.message);
