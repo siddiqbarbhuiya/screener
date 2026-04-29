@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PlusCircle, Trash2, BarChart2 } from 'lucide-react';
 import { useAIPost } from '../hooks/useAI';
+import Seo from '../components/Seo';
 
 function HoldingRow({ holding, index, onChange, onRemove }) {
   return (
@@ -78,6 +79,11 @@ export default function Portfolio() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+      <Seo
+        title="Portfolio Analyzer"
+        description="Analyze your Indian stock portfolio with sector allocation, diversification insights, and AI-powered recommendations."
+        path="/portfolio"
+      />
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Portfolio Analyzer</h1>
         <p className="text-sm text-gray-500 mt-1">

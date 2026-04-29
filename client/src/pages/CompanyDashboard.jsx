@@ -15,6 +15,7 @@ import RedFlags from '../components/company/RedFlags';
 import DashboardSkeleton from '../components/DashboardSkeleton';
 import ErrorBanner from '../components/ErrorBanner';
 import EmptyState from '../components/EmptyState';
+import Seo from '../components/Seo';
 
 export default function CompanyDashboard() {
   const { symbol } = useParams();
@@ -45,6 +46,11 @@ export default function CompanyDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+      <Seo
+        title={`${symbol?.toUpperCase() || 'Company'} Analysis`}
+        description={`Detailed analysis, fundamentals, chart, and peer comparison for ${symbol?.toUpperCase() || 'an Indian stock'}.`}
+        path={`/company/${symbol}`}
+      />
       <CompanyHeader data={data} />
 
       {data.about && (

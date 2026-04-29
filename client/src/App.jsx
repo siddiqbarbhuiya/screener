@@ -1,23 +1,28 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import CompanyDashboard from './pages/CompanyDashboard';
-import Screener from './pages/Screener';
-import Portfolio from './pages/Portfolio';
-import NotFound from './pages/NotFound';
+import LoadingSpinner from './components/LoadingSpinner';
+
+const Home = lazy(() => import('./pages/Home'));
+const CompanyDashboard = lazy(() => import('./pages/CompanyDashboard'));
+const Screener = lazy(() => import('./pages/Screener'));
+const Portfolio = lazy(() => import('./pages/Portfolio'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/company/:symbol" element={<CompanyDashboard />} />
-          <Route path="/screens" element={<Screener />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<LoadingSpinner className="py-16" />}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/company/:symbol" element={<CompanyDashboard />} />
+            <Route path="/screens" element={<Screener />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

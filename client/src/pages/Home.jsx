@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { TrendingUp, TrendingDown, BarChart2 } from 'lucide-react';
 import SearchBar from '../components/SearchBar';
 import SkeletonCard from '../components/SkeletonCard';
+import Seo from '../components/Seo';
 import api from '../utils/api';
 
 const TOP_SYMBOLS = ['ITC', 'RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK'];
@@ -50,6 +51,11 @@ export default function Home() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 space-y-12">
+      <Seo
+        title="Home"
+        description="Screen and analyze Indian stocks. Search NSE and BSE companies, review key metrics, and discover market movers."
+        path="/"
+      />
       {/* Hero */}
       <section className="text-center space-y-6 py-8">
         <div className="inline-flex items-center gap-2 text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full text-sm font-medium">

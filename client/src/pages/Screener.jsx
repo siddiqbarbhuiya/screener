@@ -6,6 +6,7 @@ import AISearchBar from '../components/screener/AISearchBar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorBanner from '../components/ErrorBanner';
 import EmptyState from '../components/EmptyState';
+import Seo from '../components/Seo';
 import { formatPct, formatNumber, formatCroresDirect } from '../utils/format';
 
 const EXAMPLE_QUERIES = [
@@ -113,6 +114,11 @@ export default function Screener() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
+      <Seo
+        title="Stock Screener"
+        description="Filter Indian stocks with custom financial queries using market cap, P/E, ROCE, ROE, and dividend yield."
+        path="/screens"
+      />
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Stock Screener</h1>
         <p className="text-sm text-gray-500 mt-1">
