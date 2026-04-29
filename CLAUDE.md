@@ -20,6 +20,14 @@ npm run install:all
 
 # Playwright smoke test (searches ITC, navigates to company page)
 cd client && node test-search.mjs
+
+# Production build + bundle analysis
+cd client && npm run build
+cd client && npm run build:analyze
+
+# Lighthouse audits (requires running dev server)
+cd client && npm run lighthouse:mobile
+cd client && npm run lighthouse:desktop
 ```
 
 Backend runs on **port 5000**, frontend on **port 5173**.
@@ -37,10 +45,9 @@ client (React + Vite)
    ↓ axios → localhost:5000/api
 Express BFF (Node.js)
    ├── 0xramm API  http://65.0.104.9        (price/market data, search)
-   ├── Yahoo Finance                         (planned replacement/supplement)
-   ├── Alpha Vantage                         (planned secondary data)
-   ├── News API                              (planned: stock-reason feature)
-   ├── AI Layer  OpenAI OR Ollama            (planned: AI insights)
+   ├── Alpha Vantage                         (secondary data)
+   ├── News API / Newsdata                   (stock news, market news)
+   ├── AI Layer  Gemini OR Ollama            (AI insights, screener, red flags)
    └── server/services/mockData.js           (fallback when upstream fails)
 ```
 
@@ -48,26 +55,45 @@ Express BFF (Node.js)
 
 | Layer | Path | Purpose |
 |---|---|---|
-| Entry | `index.js` | Express app, CORS, error handler, upstream reachability check on boot |
-| Routes | `routes/stockRoutes.js` | All `/api/*` stock routes |
-| Controllers | `controllers/*.js` | Fetch → transform → merge with mock → respond |
+| Entry | `index.js` | Express app, manual CORS headers, upstream reachability check on boot |
+| Routes | `routes/stockRoutes.js` | `/api/*` stock, news, screen routes |
+| Routes | `routes/aiRoutes.js` | `/api/ai/*` AI insight routes |
+| Routes | `routes/portfolioRoutes.js` | `/api/portfolio/*` portfolio routes |
 | Upstream client | `services/upstreamApi.js` | Axios instance for 0xramm (`API_BASE_URL`) |
-| AI service | `services/aiService.js` | Routes to Gemini (`gemini-2.5-flash`) or Ollama based on `AI_PROVIDER` |
+| AI service | `services/aiService.js` | Routes to Gemini (`gemini-2.5-flash`) or Ollama; error parsing + retry |
+| Cache service | `services/cacheService.js` | In-memory response cache keyed by symbol/prompt hash |
+| News service | `services/newsService.js` | Wraps News API / Newsdata endpoints |
 | Mock data | `services/mockData.js` | Full fallback dataset (ITC, RELIANCE, TCS + defaults) |
 | Transformer | `utils/transformers.js` | Maps raw 0xramm fields to app schema |
 | Limiter | `utils/limiter.js` | Caps concurrent upstream calls at 2 to avoid 503s |
 
-**`companyController` data merge**: live price/market data from upstream is spread over the mock base, but `about`, `pros`, `cons`, `peers`, `roce`, `roe`, and `faceValue` are always sourced from mock (the upstream has no equivalent fields). AI features will eventually replace these mock enrichment fields.
+**`companyController` data merge**: live price/market data from upstream is spread over the mock base, but `about`, `pros`, `cons`, `peers`, `roce`, `roe`, and `faceValue` are always sourced from mock.
+
+### Stock Routes (`routes/stockRoutes.js`)
+
+| Method | Path | Controller |
+|---|---|---|
+| GET | `/api/search` | `searchController.search` |
+| GET | `/api/company/:symbol` | `companyController.getCompany` |
+| GET | `/api/company/:symbol/chart` | `chartController.getChart` |
+| GET | `/api/company/:symbol/financials` | `financialsController.getFinancials` |
+| GET | `/api/company/:symbol/shareholding` | `financialsController.getShareholding` |
+| GET | `/api/company/:symbol/news` | `newsController.stockNews` |
+| GET | `/api/news/market` | `newsController.marketNews` |
+| POST | `/api/screen` | `screenController.runScreen` |
 
 ### Client (`client/src/`)
 
 | Layer | Path | Purpose |
 |---|---|---|
-| Pages | `pages/` | Home, CompanyDashboard, Screener, NotFound |
-| Hooks | `hooks/` | `useSearch`, `useCompany`, `useFinancials`, `useChart`, `useScreen` |
-| Components | `components/company/` | All company-page sub-panels |
-| API util | `utils/api.js` | Axios instance using `VITE_API_BASE_URL` |
+| Pages | `pages/` | Home, CompanyDashboard, Screener, Portfolio, DocumentAnalyzer, NotFound |
+| Hooks | `hooks/` | `useSearch`, `useCompany`, `useFinancials`, `useChart`, `useScreen`, `useAI` |
+| Company components | `components/company/` | All company-page sub-panels (AIInsights, StockReason, RedFlags, StockNewsPanel, etc.) |
+| Screener components | `components/screener/` | `AISearchBar` (natural language screener input) |
+| API util | `utils/api.js` | Two axios instances: `api` (10s timeout) and `aiApi` (30s timeout) |
 | Formatters | `utils/format.js` | `formatCrores`, `formatPct`, `formatINR`, `formatNumber` |
+
+Use `aiApi` (not `api`) when calling `/api/ai/*` endpoints — AI responses can take longer than 10 seconds.
 
 All data-fetching hooks use the `isCurrent` flag pattern to handle React StrictMode's double-effect invocation without race conditions:
 
@@ -84,45 +110,27 @@ useEffect(() => {
 
 ---
 
-## Planned AI Features (Priority Order)
+## AI Features
 
-All AI routes live under `/api/ai/`. The AI service (`services/aiService.js`) switches between Gemini and Ollama via `AI_PROVIDER` env var. **Fail gracefully** when AI is unavailable — return `null` and let the UI hide the section. Keep responses under ~300 tokens.
+All AI routes live under `/api/ai/`. `services/aiService.js` switches between Gemini and Ollama via `AI_PROVIDER` env var. `generateAIResponse` returns `{ text, error, retryAfter }` — always fail gracefully when AI is unavailable and let the UI hide the section.
 
-### 1. AI Company Summary — `GET /api/ai/company-summary/:symbol`
-Fetch fundamentals + ratios, construct a prompt, return structured JSON with `summary`, `strengths`, `risks`, `verdict`. Frontend component: `components/company/AIInsights.jsx`.
+| Route | Component | Description |
+|---|---|---|
+| `GET /api/ai/company-summary/:symbol` | `AIInsights.jsx` | Summary, strengths, risks, verdict |
+| `POST /api/ai/screener` | `AISearchBar.jsx` | Natural language → filter object → screener |
+| `GET /api/ai/stock-reason/:symbol` | `StockReason.jsx` | News headlines → price movement explanation |
+| `GET /api/ai/red-flags/:symbol` | `RedFlags.jsx` | Debt/profit/ROE trends → risk bullets |
 
-### 2. Natural Language Screener — `POST /api/ai/screener`
-Input: `{ "query": "IT companies with high ROE and low debt" }`. AI converts to JSON filter object (`sector`, `roe`, `pe`, `debt_to_equity`), then pipe into existing screener logic. Frontend component: `components/screener/AISearchBar.jsx`.
-
-### 3. Why Is This Stock Moving — `GET /api/ai/stock-reason/:symbol`
-Fetch top 5 headlines from News API (`newsapi.org/v2/everything?q={symbol}`), prompt AI to explain likely cause of price movement. Frontend component: `components/company/StockReason.jsx`.
-
-### 4. Red Flag Detector — `GET /api/ai/red-flags/:symbol`
-Check trends in debt, profit, ROE from mock financials. Prompt AI for plain-language risk bullets. Frontend component: `components/company/RedFlags.jsx`.
-
-### 5. Portfolio Analyzer — `POST /api/portfolio/analyze`
-Input: `[{ symbol, amount }]`. Output: sector distribution, risk summary, AI narrative. Frontend page: `pages/Portfolio.jsx`.
-
-### AI Service Implementation
-
-```js
-// server/services/aiService.js
-const generateAIResponse = async (prompt) => {
-  if (process.env.AI_PROVIDER === 'ollama') return callOllama(prompt);
-  return callGemini(prompt);  // default
-};
-```
-
-Gemini call uses `@google/genai` SDK, model `gemini-2.5-flash`, with `response_mime_type: 'application/json'` so output is always valid JSON. Ollama call targets `process.env.OLLAMA_BASE_URL/api/generate` with model `llama3`. Cache AI responses keyed on `symbol + hash(prompt)` to avoid redundant calls.
+Gemini uses `@google/genai` SDK with `response_mime_type: 'application/json'` for guaranteed JSON output. Ollama targets `OLLAMA_BASE_URL/api/generate` with model `llama3`. Both paths are wrapped by `safeParseJSON` to extract JSON from the response text.
 
 ---
 
 ## Performance & Reliability Rules
 
-- Use `utils/limiter.js` for all concurrent outgoing upstream calls (already wired into `companyController`).
-- Cache API and AI responses in-memory (or Redis later) — key by symbol + prompt hash for AI.
+- Use `utils/limiter.js` for all concurrent outgoing upstream calls.
+- Use `services/cacheService.js` for caching — key by symbol for company data, by `symbol + hash(prompt)` for AI responses.
 - Rate-limit AI endpoints to prevent runaway costs.
-- Do NOT depend on real-time data for MVP — fall back to mock wherever the upstream is unavailable.
+- Fall back to `mockData.js` wherever the upstream is unavailable.
 
 ---
 
@@ -137,24 +145,18 @@ Gemini call uses `@google/genai` SDK, model `gemini-2.5-flash`, with `response_m
 
 ## Environment Files
 
-**`server/.env`** — add your keys where marked:
+**`server/.env`**
 ```
 PORT=5000
 NODE_ENV=development
 
-# Existing data source
 API_BASE_URL=http://65.0.104.9
-NSE_BSE_API_KEY=
-
-# Planned data sources
-YAHOO_BASE_URL=https://query1.finance.yahoo.com
 ALPHA_VANTAGE_API_KEY=
 NEWS_API_KEY=
+NEWSDATA_API_KEY=
 
-# AI layer
-AI_PROVIDER=gemini
+AI_PROVIDER=gemini          # gemini | ollama
 GEMINI_API_KEY=
-OPENAI_API_KEY=
 OLLAMA_BASE_URL=http://localhost:11434
 ```
 

@@ -4,6 +4,7 @@ import { TrendingUp, TrendingDown, BarChart2, FileText, Newspaper, ExternalLink 
 import SearchBar from '../components/SearchBar';
 import SkeletonCard from '../components/SkeletonCard';
 import Seo from '../components/Seo';
+import PromoCarousel from '../components/PromoCarousel';
 import api from '../utils/api';
 
 const TOP_SYMBOLS = ['ITC', 'RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK'];
@@ -123,6 +124,11 @@ export default function Home() {
             autoFocus
           />
         </div>
+      </section>
+
+      {/* Promo carousel */}
+      <section>
+        <PromoCarousel />
       </section>
 
       {/* Top movers */}
