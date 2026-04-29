@@ -36,7 +36,7 @@ app.use((err, req, res, next) => {
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   try {
-    await axios.get(process.env.API_BASE_URL, { timeout: 3000 });
+    await axios.get(process.env.API_BASE_URL || 5000, { timeout: 3000 });
     console.log('[UPSTREAM] 0xramm API is reachable — using live data where available');
     console.log('server started at', process.env.PORT)
   } catch {
