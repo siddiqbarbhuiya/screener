@@ -12,6 +12,7 @@ import ShareholdingPanel from '../components/company/ShareholdingPanel';
 import AIInsights from '../components/company/AIInsights';
 import StockReason from '../components/company/StockReason';
 import RedFlags from '../components/company/RedFlags';
+import StockNewsPanel from '../components/company/StockNewsPanel';
 import DashboardSkeleton from '../components/DashboardSkeleton';
 import ErrorBanner from '../components/ErrorBanner';
 import EmptyState from '../components/EmptyState';
@@ -69,6 +70,7 @@ export default function CompanyDashboard() {
       </div>
 
       <RedFlags symbol={symbol} />
+      <StockNewsPanel symbol={symbol} />
 
       <ProsConsList pros={data.pros} cons={data.cons} />
 
