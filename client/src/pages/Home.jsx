@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingUp, TrendingDown, BarChart2 } from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart2, FileText } from 'lucide-react';
 import SearchBar from '../components/SearchBar';
 import SkeletonCard from '../components/SkeletonCard';
 import Seo from '../components/Seo';
@@ -100,7 +100,7 @@ export default function Home() {
 
       {/* Quick links */}
       <section className="border-t border-gray-200 pt-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             to="/screens"
             className="group bg-white border border-gray-200 rounded-xl p-5 shadow-sm
@@ -130,6 +130,22 @@ export default function Home() {
             </div>
             <p className="text-sm text-gray-500">
               View detailed financials, charts, peer comparison, and shareholding patterns.
+            </p>
+          </Link>
+
+          <Link
+            to="/document-analyzer"
+            className="group bg-white border border-gray-200 rounded-xl p-5 shadow-sm
+                       hover:border-blue-200 hover:shadow-md transition-all"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-purple-50 rounded-lg">
+                <FileText className="text-purple-600" size={20} />
+              </div>
+              <h3 className="font-semibold text-gray-900">Document Analyzer</h3>
+            </div>
+            <p className="text-sm text-gray-500">
+              Upload earnings PDFs and generate AI-based investment summaries, metrics, and risk insights.
             </p>
           </Link>
         </div>

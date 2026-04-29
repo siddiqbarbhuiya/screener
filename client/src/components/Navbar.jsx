@@ -39,6 +39,7 @@ export default function Navbar() {
             <NavLink to="/" end className={navLinkClass}>Home</NavLink>
             <NavLink to="/screens" className={navLinkClass}>Screener</NavLink>
             <NavLink to="/portfolio" className={navLinkClass}>Portfolio</NavLink>
+            <NavLink to="/document-analyzer" className={navLinkClass}>Analyzer</NavLink>
           </nav>
 
           {/* Mobile controls */}
@@ -73,6 +74,7 @@ export default function Navbar() {
             <NavLink to="/" end className={navLinkClass}>Home</NavLink>
             <NavLink to="/screens" className={navLinkClass}>Screener</NavLink>
             <NavLink to="/portfolio" className={navLinkClass}>Portfolio</NavLink>
+            <NavLink to="/document-analyzer" className={navLinkClass}>Analyzer</NavLink>
           </nav>
         )}
       </div>

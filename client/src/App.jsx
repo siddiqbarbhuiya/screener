@@ -7,6 +7,7 @@ const Home = lazy(() => import('./pages/Home'));
 const CompanyDashboard = lazy(() => import('./pages/CompanyDashboard'));
 const Screener = lazy(() => import('./pages/Screener'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
+const DocumentAnalyzer = lazy(() => import('./pages/DocumentAnalyzer'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/company/:symbol" element={<CompanyDashboard />} />
             <Route path="/screens" element={<Screener />} />
             <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/document-analyzer" element={<DocumentAnalyzer />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
