@@ -21,21 +21,21 @@ function ScreenerResultsTable({ results, total, page, limit, onPage }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-slate-400">
           Showing {(page - 1) * limit + 1}–{Math.min(page * limit, total)} of {total} companies
         </p>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto -mx-0">
           <table className="w-full text-sm min-w-max">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
+              <tr className="bg-gray-50 dark:bg-slate-700/50 border-b border-gray-200 dark:border-slate-600">
                 {['Symbol', 'Name', 'Price', 'P/E', 'Market Cap (Cr)', 'ROCE %', 'ROE %', 'Div Yield %'].map((h, i) => (
                   <th
                     key={h}
-                    className={`text-left px-4 py-3 font-medium text-gray-600 whitespace-nowrap
-                      ${i === 0 ? 'sticky left-0 bg-gray-50 z-10 border-r border-gray-100' : ''}`}
+                    className={`text-left px-4 py-3 font-medium text-gray-600 dark:text-slate-400 whitespace-nowrap
+                      ${i === 0 ? 'sticky left-0 bg-gray-50 dark:bg-slate-700/50 z-10 border-r border-gray-100 dark:border-slate-600' : ''}`}
                   >
                     {h}
                   </th>
@@ -44,24 +44,24 @@ function ScreenerResultsTable({ results, total, page, limit, onPage }) {
             </thead>
             <tbody>
               {results.map((r) => (
-                <tr key={r.symbol} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-2.5 sticky left-0 bg-white border-r border-gray-100 z-10">
+                <tr key={r.symbol} className="border-b border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
+                  <td className="px-4 py-2.5 sticky left-0 bg-white dark:bg-slate-800 border-r border-gray-100 dark:border-slate-700 z-10">
                     <Link
                       to={`/company/${r.symbol}`}
-                      className="font-semibold text-blue-600 hover:underline"
+                      className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
                     >
                       {r.symbol}
                     </Link>
                   </td>
-                  <td className="px-4 py-2.5 text-gray-700 whitespace-nowrap">{r.name}</td>
-                  <td className="px-4 py-2.5 text-gray-700 whitespace-nowrap">
+                  <td className="px-4 py-2.5 text-gray-700 dark:text-slate-300 whitespace-nowrap">{r.name}</td>
+                  <td className="px-4 py-2.5 text-gray-700 dark:text-slate-300 whitespace-nowrap">
                     ₹{r.price?.toLocaleString('en-IN')}
                   </td>
-                  <td className="px-4 py-2.5 text-gray-700">{formatNumber(r.pe)}</td>
-                  <td className="px-4 py-2.5 text-gray-700">{formatCroresDirect(r.marketCap)}</td>
-                  <td className="px-4 py-2.5 text-gray-700">{formatPct(r.roce)}</td>
-                  <td className="px-4 py-2.5 text-gray-700">{formatPct(r.roe)}</td>
-                  <td className="px-4 py-2.5 text-gray-700">{formatPct(r.dividendYield)}</td>
+                  <td className="px-4 py-2.5 text-gray-700 dark:text-slate-300">{formatNumber(r.pe)}</td>
+                  <td className="px-4 py-2.5 text-gray-700 dark:text-slate-300">{formatCroresDirect(r.marketCap)}</td>
+                  <td className="px-4 py-2.5 text-gray-700 dark:text-slate-300">{formatPct(r.roce)}</td>
+                  <td className="px-4 py-2.5 text-gray-700 dark:text-slate-300">{formatPct(r.roe)}</td>
+                  <td className="px-4 py-2.5 text-gray-700 dark:text-slate-300">{formatPct(r.dividendYield)}</td>
                 </tr>
               ))}
             </tbody>
@@ -74,18 +74,22 @@ function ScreenerResultsTable({ results, total, page, limit, onPage }) {
           <button
             onClick={() => onPage(page - 1)}
             disabled={page === 1}
-            className="p-2 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50
+            className="p-2 rounded-md border border-gray-200 dark:border-slate-700
+                       text-gray-600 dark:text-slate-400
+                       hover:bg-gray-50 dark:hover:bg-slate-800
                        disabled:opacity-40 disabled:cursor-not-allowed min-h-[44px] min-w-[44px]"
           >
             <ChevronLeft size={18} />
           </button>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-gray-600 dark:text-slate-400">
             Page {page} of {totalPages}
           </span>
           <button
             onClick={() => onPage(page + 1)}
             disabled={page >= totalPages}
-            className="p-2 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50
+            className="p-2 rounded-md border border-gray-200 dark:border-slate-700
+                       text-gray-600 dark:text-slate-400
+                       hover:bg-gray-50 dark:hover:bg-slate-800
                        disabled:opacity-40 disabled:cursor-not-allowed min-h-[44px] min-w-[44px]"
           >
             <ChevronRight size={18} />
@@ -120,21 +124,21 @@ export default function Screener() {
         path="/screens"
       />
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Stock Screener</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100">Stock Screener</h1>
+        <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">
           Filter Indian stocks using custom queries across fundamental metrics.
         </p>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-4">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">AI Natural Language Search</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">AI Natural Language Search</label>
           <AISearchBar onTranslate={(q) => { if (q) setQuery(q); }} />
-          <p className="text-xs text-gray-400 mt-1.5">Describe what you're looking for in plain English — AI will translate it to a filter query.</p>
+          <p className="text-xs text-gray-400 dark:text-slate-500 mt-1.5">Describe what you're looking for in plain English — AI will translate it to a filter query.</p>
         </div>
 
-        <div className="border-t border-gray-100 pt-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Query</label>
+        <div className="border-t border-gray-100 dark:border-slate-700 pt-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Query</label>
           <textarea
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -143,31 +147,33 @@ export default function Screener() {
             }}
             rows={3}
             placeholder="Market Cap > 10000 AND P/E < 20 AND ROCE > 15"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm font-mono
+            className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm font-mono
+                       bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100
+                       placeholder-gray-400 dark:placeholder-slate-500
                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                       resize-none placeholder-gray-400"
+                       resize-none"
           />
-          <p className="text-xs text-gray-400 mt-1.5">
-            Fields: <code className="bg-gray-100 px-1 rounded">Market Cap</code>{' '}
-            <code className="bg-gray-100 px-1 rounded">P/E</code>{' '}
-            <code className="bg-gray-100 px-1 rounded">ROCE</code>{' '}
-            <code className="bg-gray-100 px-1 rounded">ROE</code>{' '}
-            <code className="bg-gray-100 px-1 rounded">Dividend Yield</code>{' '}
-            <code className="bg-gray-100 px-1 rounded">Book Value</code>
-            {' '}&nbsp;·&nbsp; Operators: {'> < >= <= ='}  &nbsp;·&nbsp; Join with <code className="bg-gray-100 px-1 rounded">AND</code>
+          <p className="text-xs text-gray-400 dark:text-slate-500 mt-1.5">
+            Fields: <code className="bg-gray-100 dark:bg-slate-700 dark:text-slate-300 px-1 rounded">Market Cap</code>{' '}
+            <code className="bg-gray-100 dark:bg-slate-700 dark:text-slate-300 px-1 rounded">P/E</code>{' '}
+            <code className="bg-gray-100 dark:bg-slate-700 dark:text-slate-300 px-1 rounded">ROCE</code>{' '}
+            <code className="bg-gray-100 dark:bg-slate-700 dark:text-slate-300 px-1 rounded">ROE</code>{' '}
+            <code className="bg-gray-100 dark:bg-slate-700 dark:text-slate-300 px-1 rounded">Dividend Yield</code>{' '}
+            <code className="bg-gray-100 dark:bg-slate-700 dark:text-slate-300 px-1 rounded">Book Value</code>
+            {' '}&nbsp;·&nbsp; Operators: {'> < >= <= ='}  &nbsp;·&nbsp; Join with <code className="bg-gray-100 dark:bg-slate-700 dark:text-slate-300 px-1 rounded">AND</code>
             {' '}&nbsp;·&nbsp; Ctrl+Enter to run
           </p>
         </div>
 
-        {/* Example queries */}
         <div>
-          <p className="text-xs text-gray-500 mb-2">Examples:</p>
+          <p className="text-xs text-gray-500 dark:text-slate-400 mb-2">Examples:</p>
           <div className="flex flex-wrap gap-2">
             {EXAMPLE_QUERIES.map((q) => (
               <button
                 key={q}
                 onClick={() => setQuery(q)}
-                className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5
+                className="text-xs bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600
+                           text-gray-600 dark:text-slate-400 px-3 py-1.5
                            rounded-full transition-colors min-h-[32px]"
               >
                 {q}

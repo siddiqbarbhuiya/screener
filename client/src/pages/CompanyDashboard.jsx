@@ -55,9 +55,9 @@ export default function CompanyDashboard() {
       <CompanyHeader data={data} />
 
       {data.about && (
-        <section className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-          <h2 className="text-base font-semibold text-gray-800 mb-2">About</h2>
-          <p className="text-sm text-gray-600 leading-relaxed">{data.about}</p>
+        <section className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 shadow-sm">
+          <h2 className="text-base font-semibold text-gray-800 dark:text-slate-200 mb-2">About</h2>
+          <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">{data.about}</p>
         </section>
       )}
 

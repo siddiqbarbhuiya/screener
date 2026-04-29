@@ -33,7 +33,9 @@ export default function AISearchBar({ onTranslate }) {
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKey}
         placeholder='e.g. "high ROCE quality stocks" or "undervalued mid-caps"'
-        className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm
+        className="flex-1 border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2.5 text-sm
+                   bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100
+                   placeholder-gray-400 dark:placeholder-slate-500
                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       />
       <button

@@ -23,10 +23,9 @@ export default function FinancialsSection({ financials, loading, error }) {
 
   return (
     <section>
-      <h2 className="text-base font-semibold text-gray-800 mb-3">Financials</h2>
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-        {/* Tab bar */}
-        <div className="flex overflow-x-auto border-b border-gray-200 bg-gray-50">
+      <h2 className="text-base font-semibold text-gray-800 dark:text-slate-200 mb-3">Financials</h2>
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
+        <div className="flex overflow-x-auto border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-700/50">
           {TABS.map((tab) => (
             <button
               key={tab.key}
@@ -34,8 +33,8 @@ export default function FinancialsSection({ financials, loading, error }) {
               className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors min-h-[44px]
                 border-b-2 -mb-px
                 ${activeTab === tab.key
-                  ? 'border-blue-600 text-blue-600 bg-white'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                  ? 'border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 bg-white dark:bg-slate-800'
+                  : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700'
                 }`}
             >
               {tab.label}
@@ -43,7 +42,6 @@ export default function FinancialsSection({ financials, loading, error }) {
           ))}
         </div>
 
-        {/* Table content */}
         <div className="p-0">
           <FinancialTable
             title={active?.label || ''}

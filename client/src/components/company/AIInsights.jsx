@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useAIGet } from '../../hooks/useAI';
 
 const VERDICT_COLORS = {
-  Bull: 'bg-green-100 text-green-700 border-green-200',
-  Bear: 'bg-red-100 text-red-700 border-red-200',
-  Neutral: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+  Bull: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 border-green-200 dark:border-green-700/50',
+  Bear: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 border-red-200 dark:border-red-700/50',
+  Neutral: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-700/50',
 };
 
 const Sparkles = () => (
@@ -29,13 +29,13 @@ const ChevronUp = () => (
 );
 
 const PremiumBadge = () => (
-  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200">
+  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-700/50">
     ✦ Premium
   </span>
 );
 
 const CachedBadge = () => (
-  <span className="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">
+  <span className="flex items-center gap-1 text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700/50 px-2 py-0.5 rounded-full">
     <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="6" cy="6" r="5" />
       <path d="M3.5 6l1.8 1.8L8.5 4.5" />
@@ -52,18 +52,18 @@ export default function AIInsights({ symbol }) {
     return (
       <div
         onClick={() => setExpanded(true)}
-        className="bg-white rounded-xl border border-gray-200 shadow-sm p-4
+        className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-4
                    flex items-center justify-between cursor-pointer
-                   hover:border-blue-200 hover:shadow-md transition-all"
+                   hover:border-blue-200 dark:hover:border-blue-500/50 hover:shadow-md transition-all"
       >
         <div className="flex items-center gap-2.5">
           <Sparkles />
-          <span className="font-semibold text-gray-900 text-sm">AI Analysis</span>
+          <span className="font-semibold text-gray-900 dark:text-slate-100 text-sm">AI Analysis</span>
           <PremiumBadge />
         </div>
         <div className="flex items-center gap-2">
           {data && <CachedBadge />}
-          <span className="text-gray-400"><ChevronRight /></span>
+          <span className="text-gray-400 dark:text-slate-500"><ChevronRight /></span>
         </div>
       </div>
     );
@@ -71,19 +71,19 @@ export default function AIInsights({ symbol }) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+      <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <div className="h-4 bg-gray-100 rounded w-32 animate-pulse" />
+            <div className="h-4 bg-gray-100 dark:bg-slate-700 rounded w-32 animate-pulse" />
             <PremiumBadge />
           </div>
-          <button onClick={() => setExpanded(false)} title="Collapse" className="text-gray-400 hover:text-gray-600">
+          <button onClick={() => setExpanded(false)} title="Collapse" className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300">
             <ChevronUp />
           </button>
         </div>
         <div className="space-y-2">
-          <div className="h-3 bg-gray-100 rounded animate-pulse" />
-          <div className="h-3 bg-gray-100 rounded w-4/5 animate-pulse" />
+          <div className="h-3 bg-gray-100 dark:bg-slate-700 rounded animate-pulse" />
+          <div className="h-3 bg-gray-100 dark:bg-slate-700 rounded w-4/5 animate-pulse" />
         </div>
       </div>
     );
@@ -94,15 +94,15 @@ export default function AIInsights({ symbol }) {
       return (
         <div
           onClick={() => setExpanded(false)}
-          className="bg-white rounded-xl border border-gray-200 shadow-sm p-4
-                     flex items-center justify-between cursor-pointer hover:border-blue-200 transition-all"
+          className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-4
+                     flex items-center justify-between cursor-pointer hover:border-blue-200 dark:hover:border-blue-500/50 transition-all"
         >
           <div className="flex items-center gap-2.5">
             <Sparkles />
-            <span className="font-semibold text-gray-900 text-sm">AI Analysis</span>
+            <span className="font-semibold text-gray-900 dark:text-slate-100 text-sm">AI Analysis</span>
             <PremiumBadge />
           </div>
-          <span className="text-gray-400"><ChevronUp /></span>
+          <span className="text-gray-400 dark:text-slate-500"><ChevronUp /></span>
         </div>
       );
     }
@@ -110,17 +110,17 @@ export default function AIInsights({ symbol }) {
       ? new Date(data.retryAfter).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' })
       : null;
     return (
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 space-y-3">
+      <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-5 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-gray-900">AI Analysis</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-slate-100">AI Analysis</h3>
             <PremiumBadge />
           </div>
-          <button onClick={() => setExpanded(false)} title="Collapse" className="text-gray-400 hover:text-gray-600">
+          <button onClick={() => setExpanded(false)} title="Collapse" className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300">
             <ChevronUp />
           </button>
         </div>
-        <div className="bg-amber-50 rounded-lg border border-amber-200 p-3 text-sm text-amber-700">
+        <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-700/50 p-3 text-sm text-amber-700 dark:text-amber-400">
           <span className="font-medium">AI Analysis unavailable</span>
           {' — '}{data.error || 'AI service temporarily unavailable.'}
           {retryTime && <span className="block mt-1 text-xs opacity-75">Retry available at {retryTime}</span>}
@@ -132,10 +132,10 @@ export default function AIInsights({ symbol }) {
   const verdictClass = VERDICT_COLORS[data.verdict] || VERDICT_COLORS.Neutral;
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 space-y-4">
+    <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-5 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="font-semibold text-gray-900">AI Analysis</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-slate-100">AI Analysis</h3>
           <PremiumBadge />
         </div>
         <div className="flex items-center gap-2">
@@ -144,20 +144,20 @@ export default function AIInsights({ symbol }) {
               {data.verdict}
             </span>
           )}
-          <button onClick={() => setExpanded(false)} title="Collapse" className="text-gray-400 hover:text-gray-600">
+          <button onClick={() => setExpanded(false)} title="Collapse" className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300">
             <ChevronUp />
           </button>
         </div>
       </div>
 
-      <p className="text-sm text-gray-600 leading-relaxed">{data.summary}</p>
+      <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">{data.summary}</p>
 
       {data.strengths?.length > 0 && (
         <div>
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Strengths</p>
+          <p className="text-xs font-semibold text-gray-500 dark:text-slate-500 uppercase tracking-wide mb-2">Strengths</p>
           <ul className="space-y-1">
             {data.strengths.map((s, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+              <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-slate-300">
                 <span className="text-green-500 mt-0.5 shrink-0">+</span>
                 {s}
               </li>
@@ -168,10 +168,10 @@ export default function AIInsights({ symbol }) {
 
       {data.risks?.length > 0 && (
         <div>
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Risks</p>
+          <p className="text-xs font-semibold text-gray-500 dark:text-slate-500 uppercase tracking-wide mb-2">Risks</p>
           <ul className="space-y-1">
             {data.risks.map((r, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+              <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-slate-300">
                 <span className="text-red-500 mt-0.5 shrink-0">−</span>
                 {r}
               </li>
@@ -181,7 +181,7 @@ export default function AIInsights({ symbol }) {
       )}
 
       {data.verdictReason && (
-        <p className="text-xs text-gray-500 border-t border-gray-100 pt-3">{data.verdictReason}</p>
+        <p className="text-xs text-gray-500 dark:text-slate-500 border-t border-gray-100 dark:border-slate-700 pt-3">{data.verdictReason}</p>
       )}
     </div>
   );

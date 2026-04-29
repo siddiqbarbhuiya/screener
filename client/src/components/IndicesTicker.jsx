@@ -21,15 +21,15 @@ function IndexItem({ item }) {
   const pos = item.pctChange >= 0;
   return (
     <span className="inline-flex items-center gap-2 px-4 select-none">
-      <span className="text-xs font-semibold text-gray-500 tracking-wide">{item.name}</span>
-      <span className="text-xs font-bold text-gray-900">
+      <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 tracking-wide">{item.name}</span>
+      <span className="text-xs font-bold text-gray-900 dark:text-slate-100">
         {item.value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </span>
-      <span className={`inline-flex items-center gap-0.5 text-xs font-semibold ${pos ? 'text-green-600' : 'text-red-500'}`}>
+      <span className={`inline-flex items-center gap-0.5 text-xs font-semibold ${pos ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
         {pos ? <TrendingUp size={10} strokeWidth={2.5} /> : <TrendingDown size={10} strokeWidth={2.5} />}
         {pos ? '+' : ''}{item.pctChange.toFixed(2)}%
       </span>
-      <span className="text-gray-200 ml-1 text-base leading-none">|</span>
+      <span className="text-gray-200 dark:text-slate-700 ml-1 text-base leading-none">|</span>
     </span>
   );
 }
@@ -46,13 +46,12 @@ export default function IndicesTicker() {
   }, []);
 
   return (
-    <div className="bg-white border-b border-gray-100 overflow-hidden h-9 flex items-center">
+    <div className="bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 overflow-hidden h-9 flex items-center transition-colors duration-200">
       <div
         className="flex items-center animate-ticker whitespace-nowrap"
         onMouseEnter={e => (e.currentTarget.style.animationPlayState = 'paused')}
         onMouseLeave={e => (e.currentTarget.style.animationPlayState = 'running')}
       >
-        {/* Duplicated list creates a seamless loop — first copy scrolls off as second takes its place */}
         {[...indices, ...indices].map((item, i) => (
           <IndexItem key={i} item={item} />
         ))}

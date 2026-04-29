@@ -15,9 +15,9 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorBanner from '../components/ErrorBanner';
 
 function scoreStyle(score) {
-  if (score >= 75) return 'bg-green-50 border-green-200 text-green-700';
-  if (score >= 50) return 'bg-amber-50 border-amber-200 text-amber-700';
-  return 'bg-red-50 border-red-200 text-red-700';
+  if (score >= 75) return 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700/50 text-green-700 dark:text-green-400';
+  if (score >= 50) return 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-700/50 text-amber-700 dark:text-amber-400';
+  return 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700/50 text-red-700 dark:text-red-400';
 }
 
 export default function DocumentAnalyzer() {
@@ -91,18 +91,18 @@ export default function DocumentAnalyzer() {
       />
 
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">AI Document Analyzer</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100">AI Document Analyzer</h1>
+        <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">
           Upload earnings or annual-report PDFs to generate a structured investment brief.
         </p>
       </div>
 
       {!analysis ? (
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 space-y-4">
-          <label className="border-2 border-dashed border-blue-200 rounded-xl p-8 text-center block bg-blue-50/40">
-            <Upload className="mx-auto text-blue-500 mb-3" size={32} />
-            <p className="text-sm font-medium text-gray-800">Select a financial PDF document</p>
-            <p className="text-xs text-gray-500 mt-1">Supported: annual reports, earnings presentations</p>
+        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-6 space-y-4">
+          <label className="border-2 border-dashed border-blue-200 dark:border-blue-700/50 rounded-xl p-8 text-center block bg-blue-50/40 dark:bg-blue-900/10 cursor-pointer">
+            <Upload className="mx-auto text-blue-500 dark:text-blue-400 mb-3" size={32} />
+            <p className="text-sm font-medium text-gray-800 dark:text-slate-200">Select a financial PDF document</p>
+            <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">Supported: annual reports, earnings presentations</p>
             <input
               type="file"
               accept="application/pdf"
@@ -112,8 +112,8 @@ export default function DocumentAnalyzer() {
           </label>
 
           {file && (
-            <div className="flex items-center gap-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
-              <FileText size={16} className="text-blue-500" />
+            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2">
+              <FileText size={16} className="text-blue-500 dark:text-blue-400" />
               <span className="truncate">{file.name}</span>
             </div>
           )}
@@ -131,16 +131,16 @@ export default function DocumentAnalyzer() {
         </div>
       ) : (
         <>
-          <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-5 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">{analysis.companyName}</h2>
-              <p className="text-sm text-gray-500">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">{analysis.companyName}</h2>
+              <p className="text-sm text-gray-500 dark:text-slate-400">
                 {analysis.ticker} · {analysis.sector}
               </p>
             </div>
             <button
               onClick={reset}
-              className="px-4 py-2 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+              className="px-4 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700"
             >
               New Upload
             </button>
@@ -153,8 +153,8 @@ export default function DocumentAnalyzer() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-3 py-1.5 text-sm rounded-md border ${
                   activeTab === tab.id
-                    ? 'bg-blue-50 border-blue-200 text-blue-700'
-                    : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                    ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700/50 text-blue-700 dark:text-blue-400'
+                    : 'bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700'
                 }`}
               >
                 {tab.label}
@@ -164,18 +164,18 @@ export default function DocumentAnalyzer() {
 
           {activeTab === 'overview' && (
             <div className="space-y-4">
-              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 space-y-3">
+              <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-gray-900">Executive Summary</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-slate-100">Executive Summary</h3>
                   <button
                     onClick={() => (speaking ? stopSpeaking() : speak(analysis.summary))}
-                    className="p-2 border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50"
+                    className="p-2 border border-gray-200 dark:border-slate-600 rounded-md text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700"
                     aria-label="Read summary"
                   >
                     {speaking ? <Square size={16} /> : <Volume2 size={16} />}
                   </button>
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed">{analysis.summary}</p>
+                <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">{analysis.summary}</p>
               </div>
 
               <div className={`border rounded-xl p-5 ${scoreStyle(analysis.bullishnessScore)}`}>
@@ -210,51 +210,51 @@ export default function DocumentAnalyzer() {
 
           {activeTab === 'risks' && (
             <div className="space-y-4">
-              <div className="bg-white border border-red-200 rounded-xl shadow-sm p-5">
-                <h3 className="font-semibold text-red-700 flex items-center gap-2 mb-2">
+              <div className="bg-white dark:bg-slate-800 border border-red-200 dark:border-red-700/50 rounded-xl shadow-sm p-5">
+                <h3 className="font-semibold text-red-700 dark:text-red-400 flex items-center gap-2 mb-2">
                   <AlertTriangle size={16} />
                   Key Risks
                 </h3>
-                <ul className="text-sm text-gray-700 space-y-1">
+                <ul className="text-sm text-gray-700 dark:text-slate-300 space-y-1">
                   {(analysis.keyRisks || []).slice(0, 8).map((risk, idx) => (
                     <li key={idx}>- {risk}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
+              <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-gray-900">Future Outlook (3-5 years)</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-slate-100">Future Outlook (3-5 years)</h3>
                   <button
                     onClick={() => (speaking ? stopSpeaking() : speak(analysis.futureOutlook))}
-                    className="p-2 border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50"
+                    className="p-2 border border-gray-200 dark:border-slate-600 rounded-md text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700"
                     aria-label="Read outlook"
                   >
                     {speaking ? <Square size={16} /> : <Volume2 size={16} />}
                   </button>
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed">{analysis.futureOutlook}</p>
+                <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">{analysis.futureOutlook}</p>
               </div>
             </div>
           )}
 
           {activeTab === 'projections' && (
             <div className="space-y-4">
-              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
-                <h3 className="font-semibold text-gray-900 mb-3">Long-Term Projections</h3>
-                <div className="divide-y divide-gray-100">
+              <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-5">
+                <h3 className="font-semibold text-gray-900 dark:text-slate-100 mb-3">Long-Term Projections</h3>
+                <div className="divide-y divide-gray-100 dark:divide-slate-700">
                   {(analysis.longTermProjections || []).map((item, idx) => (
                     <div key={idx} className="py-2 flex justify-between gap-4 text-sm">
-                      <span className="text-gray-600">{item.metric || item.year || 'Projection'}</span>
-                      <span className="font-medium text-gray-900">{item.value || item.revenueTarget || 'N/A'}</span>
+                      <span className="text-gray-600 dark:text-slate-400">{item.metric || item.year || 'Projection'}</span>
+                      <span className="font-medium text-gray-900 dark:text-slate-100">{item.value || item.revenueTarget || 'N/A'}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
-                <h3 className="font-semibold text-gray-900 mb-2">Market Opportunity</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{analysis.marketOpportunity}</p>
+              <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-5">
+                <h3 className="font-semibold text-gray-900 dark:text-slate-100 mb-2">Market Opportunity</h3>
+                <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">{analysis.marketOpportunity}</p>
               </div>
             </div>
           )}
@@ -266,9 +266,9 @@ export default function DocumentAnalyzer() {
 
 function MetricCard({ label, value }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className="text-lg font-semibold text-gray-900 mt-1">{value || 'N/A'}</p>
+    <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-4">
+      <p className="text-xs text-gray-500 dark:text-slate-400">{label}</p>
+      <p className="text-lg font-semibold text-gray-900 dark:text-slate-100 mt-1">{value || 'N/A'}</p>
     </div>
   );
 }
@@ -277,16 +277,16 @@ function TrendCard({ label, value, inverse = false, suffix = '' }) {
   const number = Number(value) || 0;
   const positive = inverse ? number <= 1 : number >= 0;
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
+    <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-4">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-gray-500">{label}</p>
+        <p className="text-xs text-gray-500 dark:text-slate-400">{label}</p>
         {positive ? (
-          <TrendingUp size={16} className="text-green-600" />
+          <TrendingUp size={16} className="text-green-600 dark:text-green-400" />
         ) : (
-          <TrendingDown size={16} className="text-red-600" />
+          <TrendingDown size={16} className="text-red-600 dark:text-red-400" />
         )}
       </div>
-      <p className={`text-lg font-semibold mt-1 ${positive ? 'text-green-700' : 'text-red-700'}`}>
+      <p className={`text-lg font-semibold mt-1 ${positive ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'}`}>
         {number.toFixed(2)}{suffix}
       </p>
     </div>
